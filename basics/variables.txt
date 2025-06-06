@@ -1,0 +1,14 @@
+package main
+
+import "fmt"
+
+var firstName string = "Prasad"
+
+func main() {
+	fmt.Println("Yes")
+	age := 27
+	var experience int = 20
+	fmt.Println(age + experience)
+	var lastName = "Kancharla"
+	fmt.Println(firstName + " " + lastName)
+}
