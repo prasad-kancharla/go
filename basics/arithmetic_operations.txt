@@ -1,0 +1,35 @@
+package main
+
+import (
+	"fmt"
+	"math"
+)
+
+func main() {
+	a := 10
+	b := 3
+
+	fmt.Println(a + b)
+	fmt.Println(a - b)
+	fmt.Println(a * b)
+	fmt.Println(a / b)
+	fmt.Println(a % b)
+	fmt.Println(10.0 / 6)
+
+	var num1 int64 = math.MaxInt64
+	fmt.Println(num1)
+
+	var num2 = num1 + 1
+	fmt.Println(num2)
+
+	var num3 uint64 = math.MaxUint64
+	fmt.Println(num3)
+
+	var num4 uint64 = num3 + 1
+	fmt.Println(num4)
+
+	var num5 float64 = 1.0e-323
+	fmt.Println(num5)
+	fmt.Println(num5 / math.MaxFloat64)
+
+}
