@@ -1,0 +1,18 @@
+package main
+
+import "fmt"
+
+func main() {
+	const pi = 3.14
+	fmt.Println(pi)
+	// pi = 4
+
+	const (
+		monday   = 1
+		tuesday  = 2
+		saturday = 6
+	)
+
+	fmt.Println(saturday)
+
+}
