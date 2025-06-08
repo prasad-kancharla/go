@@ -1,0 +1,32 @@
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	fruit := "apple"
+
+	switch fruit {
+	case "banana":
+		fmt.Println("It is a banana")
+	case "apple":
+		fmt.Println("It is an apple")
+	default:
+		fmt.Println("Don't know the type of fruit")
+	}
+
+	num := 25
+
+	switch {
+	case num%4 == 0 && num%3 == 0:
+		fmt.Println("Num is divisible by 12")
+	case num%4 == 0:
+		fmt.Println("Number is divisible by 4")
+	case num%3 == 0:
+		fmt.Println("Number is divisible by 3")
+	default:
+		fmt.Println("Number is divisible by neither 3 nor 4")
+	}
+
+}
