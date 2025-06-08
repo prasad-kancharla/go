@@ -1,0 +1,55 @@
+package main
+
+import "fmt"
+
+func main() {
+	// function name conventions
+	// Public functions should start with a upper case - e.g - fmt.Println (available in any package)
+	// private functions should start with a lower case letter
+
+	// pass by value
+	sum := add(1, 2)
+	fmt.Println(sum)
+
+	print("Hello World")
+
+	// anonymous function that immediately gets executed
+	func() {
+		fmt.Println("Hello from anonymous function")
+	}()
+
+	// anonymous function
+	greet := func(s string) {
+		fmt.Println("Good Morning", s)
+	}
+
+	greet("prasad")
+
+	fmt.Println(applyOperation(3, 8, add))
+
+	twoXMultiplier := createMultiplier(2)
+	fmt.Println(twoXMultiplier(52))
+
+}
+
+// function with a return type
+func add(a, b int) int {
+	return a + b
+}
+
+// function without return type
+func print(s string) {
+	fmt.Println(s)
+}
+
+// passing func as a parameter
+func applyOperation(x int, y int, operation func(x int, y int) int) int {
+	return operation(x, y)
+}
+
+// return func
+func createMultiplier(factor int) func(x int) int {
+	return func(x int) int {
+		return factor * x
+	}
+}
