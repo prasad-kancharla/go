@@ -1,0 +1,62 @@
+package main
+
+import (
+	"fmt"
+	"slices"
+)
+
+func main() {
+	// var nums []int
+	// declaration is same as array except there is no need to provided the size
+	// The size is dynamic, it can either increase or decrease
+	nums := []int{1, 2, 3}
+	fmt.Println(nums)
+
+	arr := []int{8, 9, 10, 11}
+
+	// we can extract slice from an existing array
+	// start index in inclusive, end is exclusive
+	slice := arr[1:3]
+	fmt.Println("Slice before:", slice)
+	fmt.Println("The length of slice is:", len(slice))
+	fmt.Println("The capacity of slice is:", cap(slice))
+
+	slice = append(slice, 12, 13, 14)
+	fmt.Println(slice)
+
+	slice[4] = 50
+	fmt.Println("Slice:", slice)
+
+	slice2 := []int{}
+	slice2 = append(slice2, 9, 10, 12, 13, 50)
+	fmt.Println("Slice 2:", slice2)
+
+	fmt.Println(slices.Equal(slice, slice2))
+
+	// this is called nil slice, we just declared it and it doesn't contain any values
+	var tempSlice []int
+	fmt.Println(tempSlice)
+
+	for i, v := range slice {
+		fmt.Println(i, v)
+	}
+
+	// make functions takes type as the first param and length as the 2nd param
+	// we made a 2D slice of outer length 3
+	// we can create 2D arrays also using below approach
+	twoD := make([][]int, 3)
+
+	for i := 0; i < 3; i++ {
+		innerLength := i + 1
+
+		// first inner slice of 2D slice using make function
+		twoD[i] = make([]int, innerLength)
+		for j := 0; j < innerLength; j++ {
+			twoD[i][j] = i + j
+		}
+	}
+
+	fmt.Println(twoD)
+	fmt.Println(twoD[2])
+
+}
