@@ -1,0 +1,63 @@
+package main
+
+import "fmt"
+
+func main() {
+	var nums [5]int
+	fmt.Println(nums)
+
+	for i := 0; i < len(nums); i++ {
+		nums[i] = i + 1
+	}
+
+	fmt.Println("Size of nums array is", len(nums))
+	fmt.Println(nums)
+
+	var strs [3]string
+	fmt.Println(strs)
+
+	fruits := [4]string{"Apple", "Banana", "Orange", "Kiwi"}
+	fmt.Println(fruits)
+	fmt.Println(fruits[2])
+
+	copiedFruits := fruits
+	copiedFruits[0] = "Grapes"
+	fmt.Println(copiedFruits)
+	fmt.Println(fruits)
+
+	// get both index and value
+	for i, v := range fruits {
+		fmt.Printf("Index is %d value is %s\n", i, v)
+	}
+
+	// if you only want values and ignore index
+	// _ is used if you want to ignore a value from function output
+	// Here, from range function, we get both index and value.
+	// Since we want to ignore index, we can use _ inplace of it
+	for _, v := range nums {
+		fmt.Printf("Value is: %d\n", v)
+	}
+
+	a, b := getData()
+	fmt.Printf("Values are: %d and %d\n", a, b)
+
+	_, b = getData()
+	fmt.Println("Value of b is", b)
+
+	arr1 := [3]int{8, 9, 10}
+	arr2 := [3]int{8, 9, 10}
+	fmt.Println(arr1 == arr2)
+
+	// 2D array
+	matrix := [3][3]int{
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9},
+	}
+
+	fmt.Println(matrix)
+}
+
+func getData() (int, int) {
+	return 33, 44
+}
