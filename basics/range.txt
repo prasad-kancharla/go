@@ -1,0 +1,16 @@
+package main
+
+import "fmt"
+
+func main() {
+	message := "Hello World"
+
+	// range operates on copy of the datastructure it was used
+	// so original value or data structure is not affected
+	// range iterates in order for slices/arra/string etc
+	// for map, order is random
+	// you can use _ if you don't want to use i
+	for i, v := range message {
+		fmt.Printf("Index is %d and value is %c\n", i, v)
+	}
+}
