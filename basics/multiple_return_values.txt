@@ -1,0 +1,31 @@
+package main
+
+import (
+	"errors"
+	"fmt"
+)
+
+func main() {
+	square, cube := getSquaresAndCubes(6)
+	fmt.Println(square, cube)
+
+	str, err := compare(3, 4)
+	if err != nil {
+		fmt.Println("Got error:", err)
+	} else {
+		fmt.Println(str)
+	}
+
+}
+
+func getSquaresAndCubes(n int) (int, int) {
+	return n * n, (n * n * n)
+}
+
+func compare(a, b int) (string, error) {
+	if a > b {
+		return "a is greater than b", nil
+	} else {
+		return "", errors.New("Wrong input")
+	}
+}
