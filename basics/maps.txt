@@ -1,0 +1,63 @@
+package main
+
+import (
+	"fmt"
+	"maps"
+)
+
+func main() {
+	map1 := make(map[string]int)
+	map1["key1"] = 10
+	fmt.Println(map1)
+	fmt.Println(map1["key1"])
+	fmt.Println(map1["abc"]) // returns 0 if value type is int, returns "" if value type is string
+
+	map1["key1"] = 20
+	fmt.Println(map1)
+	map1["key2"] = 40
+	fmt.Println(map1)
+
+	// deletes a key value pair from map
+	delete(map1, "key1")
+	fmt.Println(map1)
+
+	map1["key3"] = 60
+	fmt.Println(map1)
+
+	// number of keys and not the number of values
+	fmt.Println("The length of map1 is:", len(map1))
+
+	// removes all key value pairs from map
+	// clear(map1)
+	// fmt.Println(map1)
+
+	value, doesValueExists := map1["key2"]
+	fmt.Println("The value of key2 is:", value)
+	fmt.Println("Value exists for key2:", doesValueExists)
+
+	// we can ignore value and just check if there is any value for that key
+	_, valueExists := map1["key3"]
+	fmt.Println("Value exists for key3:", valueExists)
+
+	// the second variable can be name anything but naming it as "ok" is the convention
+	_, ok := map1["key1"]
+	fmt.Println("Value exists for key1:", ok)
+
+	myMap := map[string]int{"a": 1, "b": 2}
+	myMap2 := map[string]int{"a": 1, "b": 2}
+	fmt.Println(myMap)
+	fmt.Println(maps.Equal(myMap, myMap2))
+
+	// again we can use _ in place of either key (k) or value (v)
+	for k, v := range myMap {
+		fmt.Println(k, v)
+	}
+
+	// this is a nil map
+	var emptyMap map[int]string
+	fmt.Println(emptyMap)
+	fmt.Println(emptyMap == nil)
+	// the value type is string and we dont have a key of 1
+	// so we get empty string
+	fmt.Println(emptyMap[1])
+}
