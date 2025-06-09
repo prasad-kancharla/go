@@ -1,0 +1,43 @@
+package main
+
+import "fmt"
+
+func main() {
+
+	// ...
+	// This is called ellipsis
+	// means a function can accept 0 or more arguments
+	fmt.Println(getSum(1, 2))
+	fmt.Println(getSum(1, 2, 3))
+	fmt.Println(getSum())
+
+	fmt.Println(getSumWithString("The sum of 1,2, and 3 is", 1, 2, 3))
+	fmt.Println(getSumWithString("The sum of 1,2, and 3 is"))
+
+	numSlice := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+	fmt.Println(numSlice)
+
+	fmt.Println(getSum(numSlice...))
+
+}
+
+func getSum(nums ...int) int {
+	sum := 0
+	for i := range nums {
+		sum += i
+	}
+	return sum
+}
+
+// here returnString is regular parameter
+// nums is variadic parameter
+// variadic parameter must be the last parameter in function
+func getSumWithString(returnString string, nums ...int) (string, int) {
+
+	total := 0
+	for i := range nums {
+		total += i
+	}
+
+	return returnString, total
+}
