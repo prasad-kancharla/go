@@ -5,7 +5,7 @@ import "fmt"
 func main() {
 
 	// panic is a built-in function that stops executuion of current function
-	// and start executing all the defer lines of code (the finally blocks) in the stack from reverse
+	// and start executing all the defer functions or lines of code (the finally blocks) in the stack from reverse
 	// if multiple defers are there, the order will be in reverse
 	// and at the end stops complete execution
 	// It is used to signal an unexpected error condition
