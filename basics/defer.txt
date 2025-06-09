@@ -1,0 +1,19 @@
+package main
+
+import "fmt"
+
+func main() {
+	// defer function is always enclosed in another function
+	process(10)
+}
+
+func process(i int) {
+	// arguments to defered functions are evaluated immediately as soon as it is encountered
+	// this is imp when value of arguments change by the time defer line of code executes
+	// sligtly similar to finally block in java
+	defer fmt.Println("First deferred statement with value of i", i)
+	defer fmt.Println("Second deferred statement")
+	defer fmt.Println("Third deferred statement")
+	i++
+	fmt.Println("Normal statement with value of i", i)
+}
