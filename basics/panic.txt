@@ -1,0 +1,26 @@
+package main
+
+import "fmt"
+
+func main() {
+
+	// panic is a built-in function that stops executuion of current function
+	// and start executing all the defer lines of code (the finally blocks) in the stack from reverse
+	// if multiple defers are there, the order will be in reverse
+	// and at the end stops complete execution
+	// It is used to signal an unexpected error condition
+	process(-2)
+
+}
+
+func process(i int) {
+	defer fmt.Println("Defer1 :Cleared the data")
+	defer fmt.Println("Defer2 :Closed the connection")
+	if i < 0 {
+		fmt.Println("Before panic")
+		panic("Input must be greater >= 0")
+		// this is unreachable code try to uncomment and see
+		// fmt.Println("After panic")
+	}
+	fmt.Println("Processing input:", i)
+}
