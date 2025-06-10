@@ -1,0 +1,20 @@
+package main
+
+import "fmt"
+
+func main() {
+	// init is a special function can be declared in any package
+	// is used to perform initialization tasks in a package
+	// compiler automatically executes the init func once per package before executing main function
+	// a package can have multiple init functions
+	fmt.Println("This is main function")
+}
+
+// if there are multiple inits, the order of execution is as per the code order in the file
+func init() {
+	fmt.Println("Initialized the package")
+}
+
+func init() {
+	fmt.Println("Second init function")
+}
