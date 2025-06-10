@@ -1,0 +1,26 @@
+package main
+
+import "fmt"
+
+func main() {
+	fmt.Println(factorial(5))
+	fmt.Println(factorial(15))
+
+	fmt.Println(sumOfDigits(100))
+	fmt.Println(sumOfDigits(168))
+}
+
+func factorial(num int) int {
+	if num == 0 {
+		return 1
+	}
+	return num * factorial(num-1)
+
+}
+
+func sumOfDigits(num int) int {
+	if num < 10 {
+		return num
+	}
+	return num%10 + sumOfDigits(num/10)
+}
