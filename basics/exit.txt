@@ -1,0 +1,20 @@
+package main
+
+import (
+	"fmt"
+	"os"
+)
+
+func main() {
+	// os.exit
+	// terminates the program execution abruptyly
+	// won't even execute the defer functions/lines of code
+	// if program execution completes normally, the exit code will be zero (success)
+	// non-zero exit code - failure
+	// since we are manually terminating it, we need to pass an exit code
+
+	defer fmt.Println("This is a deferred statement")
+	fmt.Println("Hello World")
+	os.Exit(3)
+	fmt.Println("End of program") // This line of code won't be executed
+}
