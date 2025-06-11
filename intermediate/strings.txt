@@ -1,0 +1,93 @@
+package main
+
+import (
+	"fmt"
+	"unicode/utf8"
+)
+
+func main() {
+	message := "Hello Prasad"
+
+	// \n for new line
+	// \t for a tab space
+	// Inside backticks \n and \t won't work, whatever you write will be printed as it is
+	rawMessage := `Hello    \n\t Prasad`
+	fmt.Println(message)
+	fmt.Println(rawMessage)
+
+	message2 := "Welcome to \nIndia"
+	fmt.Println(message2)
+
+	message3 := "Good\tMorning"
+	fmt.Println(message3)
+
+	// carriage return
+	// what it does is, it takes the cursor back to the start of the line
+	// The line till that point is Good
+	// now it will replace the the first 3 chars with the word day
+	// so the output is dayod
+	message4 := "Goood \rday"
+	fmt.Println(message4)
+	fmt.Println(len(message))
+	fmt.Println(len(message4))
+
+	// we get the ascii value of the char - this is called rune
+	// rune is an unicode int32 value  - used to represent characters of a string
+	// rune != char
+	fmt.Println("india"[0])
+
+	// go compiler won't add spaces when doing string concatenation
+	// it adds the space if we use comma in b/w to print multiple strings
+	fmt.Println("I" + "love" + "India")
+	fmt.Println("I", "love", "India")
+
+	// lexicographical order for comparing and sorting strings
+	fmt.Println("Apple" < "banana")
+	fmt.Println("app" > "apple")
+	// ascii code of lowercase is higher than uppercase
+	// a - 97
+	// A - 65
+	fmt.Println("Apple" > "apple")
+
+	for i, char := range message {
+		fmt.Printf("Character at index %d is %c\n", i, char)
+		// // fmt.Printf("%v\n", char) //prints the ascii value of char
+		// fmt.Printf("%x\n", char) // prints the hexadecimal value of char
+	}
+
+	// since the name contains only characters (1 byte each) the len and runecount matches
+	// len function counts the bytes
+	// RuneCountInString counts the runes
+	fmt.Println(len("kancharla divya guru kali prasad"))
+	fmt.Println("Rune count of message is:", utf8.RuneCountInString("kancharla divya guru kali prasad"))
+
+	s := "Go💖"
+	// heart emoji has 4 bytes
+	fmt.Println(len(s))                    // 6 bytes
+	fmt.Println(utf8.RuneCountInString(s)) // 3 runes
+
+	// strings are immutable
+
+	//runes
+	// default value is zero
+	var temp rune
+	fmt.Println("The value of temp variable rune which is not initialized is", temp)
+
+	var ch rune = 'a'
+	fmt.Println(ch)
+	var rune2 rune = '💖'
+	fmt.Println(rune2)
+	rune3 := '😂'
+	fmt.Println(rune3)
+
+	// if we want to see actual character instead of int value of rune
+	fmt.Printf("%c\n", rune2)
+	fmt.Printf("%c\n", rune3)
+
+	// convert rune to string
+	str := string(ch)
+	str2 := string(rune2)
+	fmt.Printf("The type of str is %T\n", str)
+	fmt.Printf("The type of str2 is %T\n", str2)
+	fmt.Printf("The type of ch is %T\n", ch)
+}
