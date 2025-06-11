@@ -1,0 +1,35 @@
+package main
+
+import "fmt"
+
+func main() {
+	a := 10
+
+	// declaring a pointer
+	var ptr *int
+	// nil is the default value if it is not initialized
+	fmt.Println(ptr)
+	ptr = &a
+
+	fmt.Println(a)
+	fmt.Println(ptr)
+
+	b := "Prasad"
+	namePointer := &b // referencing a pointer
+	fmt.Println(b)
+	fmt.Println(namePointer)
+	fmt.Println(*namePointer) // dereference a pointer
+
+	incrementValue(ptr)
+	fmt.Println(a)
+
+	greetUser(namePointer)
+}
+
+func incrementValue(pointer *int) {
+	*pointer++
+}
+
+func greetUser(pointer *string) {
+	fmt.Println("Hello", *pointer)
+}
