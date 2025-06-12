@@ -1,0 +1,71 @@
+package main
+
+import "fmt"
+
+type Rectangle struct {
+	length float64
+	width  float64
+}
+
+// value receiver
+// syntax slightly different from normal function
+// The method name starts with uppercase
+// it only accepts an instance of type Rectangle
+func (r Rectangle) Area() float64 {
+	return r.length * r.width
+}
+
+func (rp *Rectangle) ScaleByFactor(factor float64) {
+	rp.length *= factor
+	rp.width *= factor
+}
+
+type MyInt int
+
+func (m MyInt) isPositive() bool {
+	return m > 0
+}
+
+type Shape struct {
+	Rectangle // anonymous embedded struct
+}
+
+// in below function, we didn't use any instance variable like m
+// like above function, the instance variable is not compulsory
+// If you want to access the value of the instance passed then you should keep it
+func (MyInt) DoNothing() {
+	fmt.Println("Not doing anything with value of insance passed")
+}
+
+func main() {
+	rect := Rectangle{
+		length: 11.0,
+		width:  25.0,
+	}
+
+	fmt.Println(rect.Area())
+	fmt.Println(rect)
+	rect.ScaleByFactor(2)
+	fmt.Println(rect)
+
+	myNum1 := MyInt(-2)
+	myNum2 := MyInt(8)
+	fmt.Println(myNum1.isPositive())
+	fmt.Println(myNum2.isPositive())
+
+	myNum1.DoNothing()
+
+	s := Shape{
+		Rectangle: Rectangle{
+			length: 20,
+			width:  50,
+		},
+	}
+
+	// I can directly access the area method
+	// as the rectangle was embedded anonymously
+	// otherwise it would be like s.rectange.Area()
+	fmt.Println(s.Area())
+	// This also works but above approach is clean
+	fmt.Println(s.Rectangle.Area())
+}
