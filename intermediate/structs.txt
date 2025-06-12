@@ -1,0 +1,103 @@
+package main
+
+import (
+	"fmt"
+)
+
+// structs and its methods should be defined at package level
+// not in main function
+// so that they are accessible throughout the global scope
+// go deliberately wants to separate data (structs) and behavior (methods)
+type Person struct {
+	firstName string
+	lastName  string
+	age       int
+
+	// embedded structs
+	address Address
+
+	// anonymous embedded struct
+	ContactDetails
+}
+
+type Address struct {
+	city    string
+	country string
+}
+
+type ContactDetails struct {
+	homephone string
+	cellphone string
+}
+
+func main() {
+	// similar to classes
+	// but doesn't support inheritance
+
+	p := Person{
+		firstName: "Prasad",
+		lastName:  "Kancharla",
+		age:       27, // if you don't give a value for a property, it will have default value
+		address: Address{
+			city: "Tuni",
+			// Default value for country
+		},
+		// Upper case since the contact details struct is anonymous
+		ContactDetails: ContactDetails{
+			homephone: "9851561",
+			cellphone: "12365515119",
+		},
+	}
+
+	add1 := Address{
+		city:    "Vizag",
+		country: "India",
+	}
+
+	p.address = add1
+
+	fmt.Println(p)
+	fmt.Println(p.firstName)
+	fmt.Println(p.address)
+	fmt.Println(p.address.country) // accessing properties from embedded structs
+
+	fmt.Println(p.ContactDetails)
+	fmt.Println(p.cellphone) // accessing properties from anonymous embedded structs
+
+	// anonymous structs
+	userDetails := struct {
+		username string
+		emailId  string
+	}{
+		username: "kdgkp98",
+		emailId:  "kdgkp98@gmail.com",
+	}
+
+	fmt.Println(userDetails.username)
+	fmt.Println(userDetails.emailId)
+
+	fmt.Println(fullName(p))
+
+	incrementAge(&p)
+	fmt.Println(p)
+
+	p2 := Person{
+		firstName: "John",
+		lastName:  "Doe",
+	}
+
+	fmt.Println(p == p2)
+
+}
+
+// this method received a copy of actual person object that was passed
+// since we only read data there are no issues
+func fullName(p Person) string {
+	return p.firstName + " " + p.lastName
+}
+
+// here we want to modify the data of actual object
+// so we need to pass the memory address - pointer of object
+func incrementAge(p *Person) {
+	p.age++
+}
