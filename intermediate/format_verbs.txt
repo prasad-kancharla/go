@@ -1,0 +1,19 @@
+package main
+
+import "fmt"
+
+func main() {
+	i := 36
+	// actual value
+	fmt.Printf("%v\n", i)
+
+	//type
+	fmt.Printf("%T\n", i)
+
+	name := "Prasad"
+
+	fmt.Printf("%v\n", name)
+	// by adding #, it prints the actual value in go syntax
+	fmt.Printf("%#v\n", name)
+
+}
