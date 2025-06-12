@@ -1,0 +1,55 @@
+package main
+
+import "fmt"
+
+func main() {
+	fmt.Println(3)
+
+	// fmt package also has sprint, sprintln, sprintf method for string concatenation
+	// very similar to print, println and printf, but the result is another string that can be stored
+	// instead of printing the string to console
+	s := fmt.Sprint("Hello", "Prasad", "India")
+	fmt.Println(s)
+
+	// adds space b/w words
+	// adds new line before and after
+	s2 := fmt.Sprintln("Hello", "Prasad", "India")
+	fmt.Println(s2)
+
+	fmt.Println("Hello")
+	// formats string
+	myAge := 27
+	s3 := fmt.Sprintf("My age is %d", myAge)
+	fmt.Println(s3)
+
+	var name string
+	var age int
+
+	fmt.Println("Enter your name and age")
+	// if you pass just name and age instead of their pointer, a copy of the variable will sent
+	// not the actual variable
+	// fmt.Scan(&name, &age)
+
+	//scanln is similar to scan but it stops scanning at a new line
+	// it accepts exactly one line of input
+	// fmt.Scanln(&name, &age)
+
+	// if you expect input in a specific format, you can use scanf
+	fmt.Scanf("%s %d", &name, &age)
+	fmt.Printf("The name is %s and %d\n", name, age)
+
+	output, err := checkAge(15)
+	if err != nil {
+		fmt.Println("Got Error:", err)
+	} else {
+		fmt.Println(output)
+	}
+
+}
+
+func checkAge(age int) (message string, err error) {
+	if age < 18 {
+		return "", fmt.Errorf("Age is too less to drive")
+	}
+	return "You can drive", nil
+}
