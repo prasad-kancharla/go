@@ -1,0 +1,90 @@
+package main
+
+import (
+	"fmt"
+	"math"
+)
+
+func main() {
+	r := Rectangle{
+		Length:  20.1,
+		Breadth: 10.1,
+	}
+
+	getDetails(r)
+
+	c := Circle{
+		Radius: 15,
+	}
+
+	getDetails(c)
+
+	s := Square{
+		Length: 40,
+	}
+	fmt.Println(s)
+
+	// getDetails(s)
+	myPrinter(2, "Prasad", true, 538.3)
+
+}
+
+type Goemetry interface {
+	Area() float64
+	Perimeter() float64
+}
+
+// rectangle and circle structs implement the goemetry interface by
+// implementing the area and perimeter methods
+// rectange/circle struct can have other methods as needed but just need to implement the methods defined in interface
+
+type Rectangle struct {
+	Length  float64
+	Breadth float64
+}
+
+type Circle struct {
+	Radius float64
+}
+
+func (r Rectangle) Area() float64 {
+	return r.Length * r.Breadth
+}
+
+func (r Rectangle) Perimeter() float64 {
+	return 2 * (r.Length + r.Breadth)
+}
+
+func (c Circle) Area() float64 {
+	return math.Pi * c.Radius * c.Radius
+}
+
+func (c Circle) Perimeter() float64 {
+	return math.Pi * 2 * c.Radius
+}
+
+func getDetails(g Goemetry) {
+	fmt.Println(g)
+	fmt.Println("Area:", g.Area())
+	fmt.Println("Perimeter:", g.Perimeter())
+}
+
+// Square only implemented area, didn't implement perimeter
+// so we cannot pass instance of it to the getDetails method
+type Square struct {
+	Length float64
+}
+
+func (s Square) Area() float64 {
+	return s.Length * s.Length
+}
+
+// interfaces are also used if you want to accept any type of value as an input to your function
+// you can replace the interface{} with any
+// func myPrinter(input ...any) {
+// same concept is used in Println function
+func myPrinter(input ...interface{}) {
+	for _, i := range input {
+		fmt.Println(i)
+	}
+}
