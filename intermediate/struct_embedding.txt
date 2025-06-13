@@ -1,0 +1,61 @@
+package main
+
+import (
+	"fmt"
+)
+
+type Person struct {
+	name string
+	age  int
+}
+
+func (p Person) Introduce() {
+	fmt.Printf("Hello, I am %s and my age is %d", p.name, p.age)
+}
+
+type Employee struct {
+	Person // anonymous embedded struct
+	empId  string
+	salary float64
+}
+
+type ContractEmployee struct {
+	employeeInfo     Employee // embedded struct with a named field - not anonymous
+	contractDuration int
+}
+
+// contract employee has access to introduce method of person
+// here we are overriding the introducte function
+func (c ContractEmployee) Introduce() {
+	fmt.Printf("Hello, My name is %s and I am an employee with %d months of contract", c.employeeInfo.name, c.contractDuration)
+}
+
+func main() {
+	e := Employee{
+		Person: Person{
+			name: "Prasad",
+			age:  27,
+		},
+		empId:  "1",
+		salary: 5000,
+	}
+
+	fmt.Println(e)
+	fmt.Println(e.name) // emebedded struct properties can be accessed directly
+	e.Introduce()       // since person is embedded, the employee struct can also access methods of person
+
+	cemp := ContractEmployee{
+		employeeInfo: Employee{
+			Person: Person{
+				name: "John",
+				age:  20,
+			},
+			salary: 4000,
+		},
+		contractDuration: 12,
+	}
+
+	fmt.Println(cemp.employeeInfo.empId)
+	fmt.Println(cemp.contractDuration)
+	cemp.Introduce()
+}
