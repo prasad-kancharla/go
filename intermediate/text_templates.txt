@@ -1,0 +1,38 @@
+package main
+
+import (
+	"bufio"
+	"html/template"
+	"os"
+	"strings"
+)
+
+func main() {
+	// example is name of the template
+	// Inside the Parse, we pass a string that will converted to a template with variables
+	// name should present in the data
+	tmpl := template.Must(template.New("example").Parse("Welcome, {{.name}}, How are you doing?\n"))
+
+	data := map[string]interface{}{
+		"name": "Prasad",
+	}
+	// used to apply a parsed template using a data structure
+	tmpl.Execute(os.Stdout, data)
+
+	reader := bufio.NewReader(os.Stdin)
+	name, _ := reader.ReadString('\n')
+	name = strings.TrimSpace(name)
+
+	// multiple templates using a map
+	templates := map[string]string{
+		"welcome":      "Welcome {{.name}}, How are you?\n",
+		"notification": "{{.name}}, You have a new notification: {{.message}}",
+		"error":        "Oops, An error occurred {{.errorMessage}}",
+	}
+
+	paresedTemplates := make(map[string]*template.Template)
+
+	for name, tmp := range templates {
+		paresedTemplates[name] = template.Must(template.New(name).Parse(tmp))
+	}
+}
