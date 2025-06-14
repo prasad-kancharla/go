@@ -1,0 +1,53 @@
+package main
+
+import (
+	"errors"
+	"fmt"
+)
+
+func main() {
+	if err := processError(); err != nil {
+		fmt.Println(err)
+		// we should defnitely use return if there is an error
+		// otherwise, code execution will continue that would happen when there was no error
+		return
+	}
+	fmt.Println("Code ran successfully")
+
+}
+
+type customError struct {
+	code    int
+	message string
+	err     error
+}
+
+// implementing the Error() method to implement the default error interface
+// here we used pointer to save memory and reduce unnecessary creation of copy values in memory
+func (c *customError) Error() string {
+	return fmt.Sprintf("Error %d: %s, %v\n", c.code, c.message, c.err)
+}
+
+// func process() error {
+// 	return &customError{
+// 		code:    500,
+// 		message: "Internal server error",
+// 	}
+// }
+
+func processError() error {
+	myErr := doSomething()
+	if myErr != nil {
+		return &customError{
+			code:    500,
+			message: "Internal server error",
+			err:     myErr,
+		}
+	}
+	return nil
+
+}
+
+func doSomething() error {
+	return errors.New("Some error")
+}
