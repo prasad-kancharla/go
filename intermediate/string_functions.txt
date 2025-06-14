@@ -1,0 +1,90 @@
+package main
+
+import (
+	"fmt"
+	"strconv"
+	"strings"
+	"unicode/utf8"
+)
+
+func main() {
+	str := "Hello"
+	fmt.Println(len(str))
+
+	str2 := "World"
+	result := str + " " + str2
+	fmt.Println(result)
+
+	fmt.Println(str[0])
+	fmt.Printf("%c\n", str[0])
+
+	// substring
+	fmt.Println(str[1:3]) // start is inclusive, end is exclusive
+
+	// string conversion
+	num := 18
+	numStr := strconv.Itoa(num)
+	fmt.Println(len(numStr))
+
+	// split strings
+	fruits := "Apple,Orange,Banana"
+	fmt.Println(strings.Split(fruits, ",")) // output is an array
+
+	// join strings
+	words := []string{"Welcome", "to", "India"}
+	sentence := strings.Join(words, " ")
+	fmt.Println(sentence)
+
+	//contains a substring
+	fmt.Println(strings.Contains(sentence, "Hello"))
+
+	// Replace substring
+	// last param is the number of times, it should replace the occurrences
+	sentence = strings.Replace(sentence, "India", "AP", 1)
+	fmt.Println(sentence)
+
+	// trim leading and trailing white spaces
+	sentence = "    " + sentence + " "
+	fmt.Println(sentence)
+	sentence = strings.TrimSpace(sentence)
+	fmt.Println(sentence)
+
+	// upper and lowercase
+	fmt.Println(strings.ToUpper(sentence))
+	fmt.Println(strings.ToLower(sentence))
+
+	// repeat
+	fmt.Println(strings.Repeat("lol ", 3))
+
+	// frequency or count of a substring
+	fmt.Println(strings.Count("hello, he likes ghee", "he"))
+
+	//prefix and suffix
+	// upper case and lower case are different and not equal
+	fmt.Println(strings.HasPrefix("Hello", "he"))
+	fmt.Println(strings.HasSuffix("World", "rld"))
+
+	// rune count
+	fmt.Println(utf8.RuneCountInString("Let's go 🚀"))
+
+	// build strings dynamically using builder
+	// similar to string builder in java
+
+	var builder strings.Builder
+
+	builder.WriteString("Hello")
+	builder.WriteString(", ")
+	builder.WriteString("World")
+
+	fmt.Println(builder)
+	fmt.Println(builder.String())
+
+	builder.WriteRune('!')
+	builder.WriteRune('👋')
+	builtString := builder.String()
+	fmt.Println(builtString)
+
+	builder.Reset()
+	builder.WriteString("Started fresh builder")
+	fmt.Println(builder.String())
+}
