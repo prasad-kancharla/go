@@ -1,0 +1,27 @@
+package main
+
+import "fmt"
+
+func main() {
+	num := 42
+
+	// min width of 5, if width is less than 5, 0 will be used
+	fmt.Printf("%05d\n", num)
+
+	// here num of digits is more than 5 (width)
+	num2 := 5323998
+	fmt.Printf("%05d\n", num2)
+
+	//right and left alignment of strings
+	// added pipes to see the added spaces
+	// 10 is the min width
+	fmt.Printf("|%10s|\n", "Hello")  // right
+	fmt.Printf("|%-10s|\n", "Hello") // left
+
+	fmt.Printf("|%10s|\n", "Hello, I am Prasad")
+
+	// you can use backticks for sql queries and multiple lines
+
+	sqlQuery := `SELECT * FROM accounts WHERE age > 30`
+	fmt.Println(sqlQuery)
+}
