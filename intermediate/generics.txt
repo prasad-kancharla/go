@@ -1,0 +1,76 @@
+package main
+
+import "fmt"
+
+func swap[T any](a, b T) (T, T) {
+	return b, a
+}
+
+type Stack[T any] struct {
+	elements []T
+}
+
+func (s *Stack[T]) push(element T) {
+	s.elements = append(s.elements, element)
+}
+
+func (s *Stack[T]) pop() (T, bool) {
+	if len(s.elements) == 0 {
+		var zero T
+		return zero, false
+	}
+	element := s.elements[len(s.elements)-1]
+	s.elements = s.elements[:len(s.elements)-1]
+	return element, true
+}
+
+func (s Stack[T]) isEmpty() bool {
+	return len(s.elements) == 0
+}
+
+func (s Stack[T]) print() {
+	for _, t := range s.elements {
+		fmt.Println(t)
+	}
+}
+
+func main() {
+	x := 2
+	y := 3
+
+	fmt.Println(x, y)
+	x, y = swap(x, y)
+	fmt.Println(x, y)
+
+	a := "Hi"
+	b := "Hello"
+
+	fmt.Println(a, b)
+	a, b = swap(a, b)
+	fmt.Println(a, b)
+
+	intStack := Stack[int]{}
+	intStack.push(1)
+	intStack.push(2)
+	intStack.push(3)
+
+	intStack.print()
+
+	poppedElement, isPopped := intStack.pop()
+	fmt.Println(poppedElement, isPopped)
+
+	intStack.print()
+	fmt.Println(intStack.isEmpty())
+	intStack.pop()
+	intStack.pop()
+	fmt.Println(intStack.isEmpty())
+
+	stringStack := Stack[string]{}
+
+	stringStack.push("John")
+	stringStack.push("Doe")
+	stringStack.print()
+
+	fmt.Println(stringStack.isEmpty())
+	fmt.Println(stringStack.pop())
+}
