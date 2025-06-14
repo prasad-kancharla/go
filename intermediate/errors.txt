@@ -1,0 +1,59 @@
+package main
+
+import (
+	"errors"
+	"fmt"
+	"math"
+)
+
+func main() {
+	result, err := squareRoot(-2)
+	if err != nil {
+		fmt.Println("Got Error:", err)
+	} else {
+		fmt.Println(result)
+	}
+
+	// myErr := process()
+	// if myErr != nil {
+	// 	fmt.Println(myErr)
+	// }
+
+	// the above code has a below shortcut
+	if myErr := process(); myErr != nil {
+		fmt.Println(myErr)
+	}
+
+	fmt.Println(getCustomError())
+
+}
+
+func squareRoot(x float64) (float64, error) {
+	if x < 0 {
+		return 0, errors.New("Math: square root of negative number")
+	}
+
+	return math.Sqrt(x), nil
+}
+
+func process() error {
+	return errors.New("Some error")
+}
+
+type customError struct {
+	message string
+}
+
+// we are implementing this function to make our custom error implement the
+// error interface which is part of builtin.go file
+// error interface has one method with name Error and it returns a string
+func (c customError) Error() string {
+	return fmt.Sprintf("Error: %s", c.message)
+}
+
+func getCustomError() customError {
+	ce := customError{
+		message: "This is a custom error message",
+	}
+	return ce
+}
