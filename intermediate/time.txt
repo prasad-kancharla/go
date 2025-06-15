@@ -1,0 +1,48 @@
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	fmt.Println(time.Now())
+
+	specificTime := time.Date(2025, time.June, 15, 15, 40, 0, 0, time.UTC)
+	fmt.Println("Specific time:", specificTime)
+
+	// convert date to a time
+	// date string can be any in any format
+	// to explain the string, we need to pass layout
+	// by taking reference from  Mon Jan 2 15:04:05 MST 2006
+	// if you pass random layout string that doesnt' match above ref date
+	// it will give 1-1-1
+	parsedTime, _ := time.Parse("02-01-2006 MST", "15-06-2025 IST")
+	fmt.Println(parsedTime)
+
+	// format time
+	// format method works on time type value
+	fmt.Println(time.Now().Format("02-01-2006 MST"))
+
+	fmt.Println(time.Now().Add(time.Hour))
+	oneDayLater := time.Now().Add(time.Hour * 24)
+	fmt.Println(oneDayLater)
+	fmt.Println(oneDayLater.Weekday())
+
+	fmt.Println("Rounded Time:", time.Now().Round(time.Hour))
+
+	fmt.Println("Truncated Time:", time.Now())
+
+	// get current time and check it for a different location
+	loc, _ := time.LoadLocation("America/New_York")
+	currentTimeInNewYork := time.Now().In(loc)
+	fmt.Println(currentTimeInNewYork)
+
+	t1 := time.Now().Add(time.Hour * 2)
+	t2 := time.Now()
+
+	// subtract time
+	fmt.Println(t1.Sub(t2))
+
+	fmt.Println(t2.After(t1))
+}
