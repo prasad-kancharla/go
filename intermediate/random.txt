@@ -1,0 +1,33 @@
+package main
+
+import (
+	"fmt"
+	"math/rand"
+	"time"
+)
+
+func main() {
+
+	// uses auto-seeding with seed value of 1
+	// range is 0 to 100 (101 is exclusive)
+	fmt.Println(rand.Intn(101))
+
+	// min value is 5
+	// max value is 104
+	fmt.Println(rand.Intn(100) + 5)
+
+	// fixed the seed
+	val := rand.New(rand.NewSource(30))
+	// Now the generated numbers order is fixed
+	// this will always print 38 irrespective of no of times you run the code
+	// the above rand.Intn function uses auto seeding, changes seed so that it generates random numbers
+	fmt.Println(val.Intn(100))
+
+	// our own auto-seeding if needed based on timestamp
+	val = rand.New(rand.NewSource(time.Now().Unix()))
+	// since the timestamp changes, the random numbers generated will not be same
+	fmt.Println(val.Intn(100))
+
+	// always a float value b/w 0.0 and < 1.0
+	fmt.Println(rand.Float64())
+}
