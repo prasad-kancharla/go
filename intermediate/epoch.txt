@@ -1,0 +1,25 @@
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+
+	// unix epoch - utc of 0 at jan 1 1970
+	// represents current timestamp as number of seconds from unix epoch
+	// positive - means aftter 1970 jan 1 and negative means before
+
+	now := time.Now()
+	unixConvertedTime := now.Unix()
+	fmt.Println(now)
+	fmt.Println(unixConvertedTime)
+
+	// convert unix to human readable time
+	// nano seconds is the second parameter
+	// for more accuracy if needed
+	normalTime := time.Unix(unixConvertedTime, 0)
+	fmt.Println(normalTime)
+	fmt.Println(normalTime.Format("02-01-2006"))
+}
