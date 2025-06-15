@@ -1,0 +1,28 @@
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+
+	// Monday Jan 2 15:04:05 MST 2006
+	// Reference time chosen by go
+
+	layout := "2006-01-02"
+	myTime := "2025-06-15"
+
+	// converts a string to a time
+	parsedTime, _ := time.Parse(layout, myTime)
+
+	fmt.Println(parsedTime)
+
+	// the layout can contain any random string but it should contain the reference values
+	// the time string should exactly match it
+	parsedTime2, _ := time.Parse("02 January, 2006", "27 March, 1998")
+	fmt.Println(parsedTime2)
+
+	parsedTime3, _ := time.Parse("02nd January, year 2006", "27nd March, year 1998")
+	fmt.Println(parsedTime3)
+}
