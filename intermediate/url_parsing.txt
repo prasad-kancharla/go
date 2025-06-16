@@ -1,0 +1,39 @@
+package main
+
+import (
+	"fmt"
+	"net/url"
+)
+
+func main() {
+	rawUrl := "https://www.example.com:8080/path?query=param#fragment"
+
+	// converting a string url into URL struct
+	parsedUrl, err := url.Parse(rawUrl)
+
+	if err != nil {
+		fmt.Println("Got error:", err)
+		return
+	}
+	fmt.Println(parsedUrl.Scheme)
+	fmt.Println(parsedUrl.Host)
+	fmt.Println(parsedUrl.Port())
+	fmt.Println(parsedUrl.Path)
+	fmt.Println(parsedUrl.RawQuery)
+	fmt.Println(parsedUrl.Fragment)
+
+	rawUrl2 := "https://example.com/path?name=John&age=30"
+	parsedUrl2, _ := url.Parse(rawUrl2)
+
+	queryParams := parsedUrl2.Query()
+	fmt.Println(queryParams)
+	fmt.Println(queryParams.Get("name"))
+	fmt.Println(queryParams.Get("age"))
+
+	generatedUrl := &url.URL{
+		Scheme: "https",
+		Host:   "example.com",
+		Path:   "/resources",
+	}
+	fmt.Println(generatedUrl)
+}
