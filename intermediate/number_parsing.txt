@@ -1,0 +1,45 @@
+package main
+
+import (
+	"fmt"
+	"strconv"
+)
+
+func main() {
+	numStr := "568"
+	num, err := strconv.Atoi(numStr)
+
+	if err != nil {
+		fmt.Println("Got error:", err)
+		return
+	}
+
+	fmt.Println(num)
+	fmt.Println(num + 1)
+	// Atoi function converts string to int type
+	// if you want to convert to specific int32 or int64, you can use parseInt
+
+	numStr2 := "999"
+	num32, err := strconv.ParseInt(numStr2, 10, 32)
+	if err != nil {
+		fmt.Println("Got error:", err)
+		return
+	}
+
+	fmt.Println(num32)
+	fmt.Println(num32 + 1)
+
+	floatStr := "3.14"
+	floatNum, _ := strconv.ParseFloat(floatStr, 64)
+	fmt.Println(floatNum)
+
+	// converted binary string to a decimal number
+	binaryString := "101010"
+	decimalNum, _ := strconv.ParseInt(binaryString, 2, 64)
+	fmt.Println(decimalNum)
+
+	// convert hexadecimal to a decimal
+	hexString := "FF"
+	decHex, _ := strconv.ParseInt(hexString, 16, 64)
+	fmt.Println(decHex)
+}
