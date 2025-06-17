@@ -1,0 +1,33 @@
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"strings"
+)
+
+func main() {
+	reader := bufio.NewReader(strings.NewReader("Hello Buffio Package\n, I am Prasad\n"))
+
+	data := make([]byte, 25)
+
+	// reading means, the code reads data from the source and transfers it to the data slice declared above
+	// transferring data
+	// the reader read only 25 chars till I
+	n, err := reader.Read(data)
+	if err != nil {
+		fmt.Println("Got error:", err)
+		return
+	}
+
+	fmt.Println(n)
+	fmt.Printf("%s\n", data)
+
+	line, err := reader.ReadString('\n')
+	if err != nil {
+		fmt.Println("Got error:", err)
+		return
+	}
+
+	fmt.Println(line)
+}
