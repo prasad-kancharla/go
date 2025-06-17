@@ -1,0 +1,31 @@
+package main
+
+import (
+	"encoding/base64"
+	"fmt"
+)
+
+func main() {
+	data := []byte("Hello, World")
+	encodedString := base64.StdEncoding.EncodeToString(data)
+
+	fmt.Println(encodedString)
+
+	decoded, err := base64.StdEncoding.DecodeString(encodedString)
+	if err != nil {
+		fmt.Println("Got error:", err)
+		return
+	}
+
+	// convert byte slice to string
+	fmt.Println(string(decoded))
+
+	// the base64 encoding may contain / or +
+	// we donot want these symbols in a url and it is not safe for url encoding
+	// below example contains +
+	fmt.Println(base64.StdEncoding.EncodeToString([]byte("Hello~ World")))
+
+	// to fix this, we can use URLEncoding instead of StdEncoding
+	fmt.Println(base64.URLEncoding.EncodeToString([]byte("Hello~ World")))
+
+}
