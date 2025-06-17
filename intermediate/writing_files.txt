@@ -1,0 +1,39 @@
+package main
+
+import (
+	"fmt"
+	"os"
+)
+
+func main() {
+	file, err := os.Create("output.txt")
+	if err != nil {
+		fmt.Println("Got error while creating a file:", err)
+		return
+	}
+
+	defer file.Close()
+
+	data := []byte("I am learning Go\n\n")
+	n, err := file.Write(data)
+	if err != nil {
+		fmt.Println("Got error while writing to file:", err)
+		return
+	}
+	fmt.Printf("Wrote %d bytes to file\n", n)
+
+	sampleFile, err := os.Create("sample.txt")
+	if err != nil {
+		fmt.Println("Got error while creating a file:", err)
+		return
+	}
+
+	defer sampleFile.Close()
+
+	n, err = sampleFile.WriteString("This is a sample file generated using write string method\n")
+	if err != nil {
+		fmt.Println("Got error while writing to file:", err)
+		return
+	}
+	fmt.Printf("Wrote %d bytes to file\n", n)
+}
