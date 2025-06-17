@@ -1,0 +1,61 @@
+package main
+
+import (
+	"crypto/rand"
+	"crypto/sha256"
+	"crypto/sha512"
+	"encoding/base64"
+	"encoding/hex"
+	"fmt"
+	"io"
+)
+
+func main() {
+	password := "Prasad@123"
+
+	encryptedPassword := sha256.Sum256([]byte(password))
+	fmt.Println(encryptedPassword)
+
+	// fmt.Println(string(encryptedPassword))
+	// the above line of code fails, becuase the string function accepts byte slice as input
+	// where as the Sum256 function returns a byte array of fixed 32 size
+
+	// %x formats byte array as hexa-decimal string
+	fmt.Printf("%x\n", encryptedPassword)
+
+	// encryptedPasswordString := string(encryptedPassword[:])
+	// even the above line wouldn't work as encryptedPassword may contain non-UTF-8 or binary data
+
+	encryptedPasswordHexString := hex.EncodeToString(encryptedPassword[:])
+	fmt.Println(encryptedPasswordHexString)
+
+	encryptedPassword512 := sha512.Sum512([]byte(password))
+	fmt.Printf("%x\n", encryptedPassword512)
+
+	password = "Kdgkp@1998"
+	salt, err := generateSalt()
+	if err != nil {
+		fmt.Println("Got error while generating salt:", err)
+		return
+	}
+	hashedPassword := hashPasword(password, salt)
+	fmt.Println("Salt:", base64.StdEncoding.EncodeToString(salt))
+	fmt.Println("Hashed Password:", hashedPassword)
+}
+
+func generateSalt() ([]byte, error) {
+	salt := make([]byte, 16)
+	_, err := io.ReadFull(rand.Reader, salt)
+	if err != nil {
+		return nil, err
+	}
+	return salt, nil
+}
+
+func hashPasword(password string, salt []byte) string {
+	passwordSlice := []byte(password)
+	passwordSlice = append(passwordSlice, salt...)
+
+	hash := sha256.Sum256(passwordSlice)
+	return base64.StdEncoding.EncodeToString(hash[:])
+}
