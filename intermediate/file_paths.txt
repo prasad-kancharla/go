@@ -1,0 +1,38 @@
+package main
+
+import (
+	"fmt"
+	"path/filepath"
+)
+
+func main() {
+	relativePath := "./example.txt"
+	absolutePath := "C:\\Users\\kanch\\Downloads\\Resume_Backend.pdf"
+
+	// depending upon os it adds either \ or / in the path
+	joinedPath := filepath.Join("Downlaod", "Samples", "output.txt")
+	fmt.Println(joinedPath)
+
+	dir, file := filepath.Split(absolutePath)
+	fmt.Println("Directory:", dir)
+	fmt.Println("file:", file)
+	fmt.Println(filepath.Base(relativePath))
+
+	fmt.Println(filepath.IsAbs(relativePath))
+	fmt.Println(filepath.IsAbs(absolutePath))
+
+	fmt.Println(filepath.Ext(relativePath))
+
+	relPath, _ := filepath.Rel("C:\\Users\\kanch", "C:\\Users\\kanch\\Downloads\\Resume_Backend.pdf")
+	fmt.Println(relPath)
+
+	relPath2, _ := filepath.Rel("C:\\Users\\kanch\\Documents", "C:\\Users\\kanch\\Downloads\\Resume_Backend.pdf")
+	fmt.Println(relPath2)
+
+	absPath, err := filepath.Abs(relativePath)
+	if err != nil {
+		fmt.Println("Got error:", err)
+		return
+	}
+	fmt.Println(absPath)
+}
