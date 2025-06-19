@@ -1,0 +1,74 @@
+package main
+
+import (
+	"fmt"
+	"os"
+	"path/filepath"
+)
+
+func main() {
+	err := os.Mkdir("subdir", 0755)
+	handleError(err)
+
+	defer os.RemoveAll("subdir")
+
+	err = os.WriteFile("subdir/test.txt", []byte("Hello, I was created by directories.go"), 0755)
+	handleError(err)
+
+	handleError(os.MkdirAll("subdir2/parent/child", 0755))
+	handleError(os.MkdirAll("subdir2/parent/child2", 0755))
+	handleError(os.MkdirAll("subdir2/parent/child3", 0755))
+	handleError(os.MkdirAll("subdir2/parent/child4", 0755))
+
+	handleError(os.WriteFile("subdir2/parent/child2/file.txt", []byte("This is a sample file"), 0755))
+
+	res, err := os.ReadDir("subdir2\\parent")
+	// reads current directory
+	res, err = os.ReadDir(".")
+
+	handleError(err)
+
+	for _, entry := range res {
+		fmt.Println(entry.Name(), entry.IsDir(), entry.Type())
+	}
+	currentDir, _ := os.Getwd()
+	fmt.Println("Current Directory:", currentDir)
+
+	os.Chdir("subdir2/parent/child2")
+
+	fmt.Println("")
+	res, err = os.ReadDir(".")
+	handleError(err)
+
+	for _, entry := range res {
+		fmt.Println(entry.Name(), entry.IsDir(), entry.Type())
+	}
+
+	currentDir, _ = os.Getwd()
+	fmt.Println("Current Directory:", currentDir)
+
+	fmt.Println("")
+
+	err = filepath.WalkDir("subdir2", func(path string, d os.DirEntry, err error) error {
+		if err != nil {
+			fmt.Println("Got error:", err)
+		}
+		fmt.Println(path)
+		return nil
+	})
+	handleError(err)
+
+	// removes directory including subdirectories and files
+	defer handleError(os.RemoveAll("subdir2"))
+
+	// this will fail as the subdir has a test.txt file
+	defer handleError(os.Remove("subdir"))
+
+}
+
+func handleError(err error) {
+	if err != nil {
+		fmt.Println("Got error:", err)
+		return
+	}
+}
