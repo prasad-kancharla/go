@@ -1,0 +1,37 @@
+package main
+
+import (
+	"fmt"
+	"os"
+)
+
+func main() {
+	// create temp dirs to avoid collisions with existing dirs on system
+	// can be used for caching/intermediate data
+	// not exact name of myFile will be used
+	// it will be prefix and random string will be attached to this pattern
+	// this is one of majore differences b/w os.Write and os.CreateTemp
+	// we can create multiple temp files with same pattern using createTemp
+	// write func will replace the file if you use same name
+	tempFile, err := os.CreateTemp("", "myFile")
+	handleError(err)
+
+	fmt.Println("Temp file created:", tempFile.Name())
+
+	defer tempFile.Close()
+	defer os.Remove(tempFile.Name())
+
+	tempDir, _ := os.MkdirTemp("", "myDir")
+
+	fmt.Println("Temp dir created:", tempDir)
+
+	defer os.RemoveAll(tempDir)
+
+}
+
+func handleError(err error) {
+	if err != nil {
+		fmt.Println("Got error:", err)
+		return
+	}
+}
