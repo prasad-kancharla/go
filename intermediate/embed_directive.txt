@@ -1,0 +1,38 @@
+package main
+
+import (
+	"embed"
+	"io/fs"
+
+	//_ "embed" // this is called blank import
+	"fmt"
+)
+
+//go:embed example.txt
+var content string
+
+//go:embed subdir
+var subdirFolder embed.FS
+
+func main() {
+	fmt.Println("Embedded content:", content)
+	cont, err := subdirFolder.ReadFile("subdir/arrays.txt")
+	if err != nil {
+		fmt.Println("Got error:", err)
+		return
+	}
+	fmt.Println(string(cont))
+
+	// we learnt filePath.WalkDir previously
+	// it is used when we are working with actual file system
+	// we use fs.WalkDir when we work with embedded files
+	// we embed static config/js file
+	err = fs.WalkDir(subdirFolder, "subdir", func(path string, d fs.DirEntry, err error) error {
+		fmt.Println(path)
+		return nil
+	})
+	if err != nil {
+		fmt.Println("Got error:", err)
+		return
+	}
+}
