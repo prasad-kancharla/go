@@ -1,0 +1,39 @@
+package main
+
+import (
+	"flag"
+	"fmt"
+	"os"
+)
+
+func main() {
+	// the first argument is the name of the program
+	// it shows the tempory path where the program got executed by go compiler
+	// the temporary file/folder will be automatically deleted after execution
+	fmt.Println(os.Args[0])
+
+	// run below command
+	// go run intermediate/cli.go I am Prasads
+	// for i, arg := range os.Args {
+	// 	fmt.Println("Argument", i, ":", arg)
+	// }
+
+	var name string
+	var age int
+	var isMale bool
+
+	flag.StringVar(&name, "name", "John", "Name of the user")
+	flag.IntVar(&age, "age", 18, "Age of the user")
+	flag.BoolVar(&isMale, "isMale", true, "Is the user a male")
+
+	// this method is responsible for showning the usage hints of the flags defined above
+	// when --help command is used
+	// go run intermediate/cli.go --help
+	// if you comment this parse line, help flag won't show any usage hints
+	flag.Parse()
+
+	// command to test above code is
+	// go run intermediate/cli.go -name "Prasad Kancharla" -age 27 -isMale true
+	fmt.Printf("Name: %s, Age:%d, IsMale:%v\n", name, age, isMale)
+
+}
