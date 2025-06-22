@@ -1,0 +1,113 @@
+package main
+
+import (
+	"encoding/json"
+	"fmt"
+)
+
+type Person struct {
+	// these are json struct tags
+	// if you don't keep them, the variable name won't follow the convention of json and uses FirstName as key
+	FirstName string  `json:"first_name"`
+	Age       int     `json:"age"`
+	Email     string  `json:"email,omitempty"`
+	Address   Address `json:"address"`
+
+	// similar to omitempty, we can use -
+	// - means, the field will be omitted
+}
+
+type Address struct {
+	State string `json:"state"`
+	City  string `json:"city"`
+}
+
+func main() {
+
+	person := Person{
+		FirstName: "Prasad",
+		Age:       27,
+	}
+	output, err := json.Marshal(person)
+	if err != nil {
+		fmt.Println("Got error:", err)
+	}
+
+	// ignored email since it is empty
+	fmt.Println(string(output))
+
+	person.Email = "prasad@gmail.com"
+	output2, _ := json.Marshal(person)
+	fmt.Println(string(output2))
+
+	person2 := Person{
+		FirstName: "Aditya",
+		Age:       19,
+		Email:     "aditya@pragati.edu",
+		Address: Address{
+			State: "AP",
+			City:  "Kakinada",
+		},
+	}
+
+	jsonData, err := json.Marshal(person2)
+	if err != nil {
+		fmt.Println("Got err:", err)
+		return
+	}
+	fmt.Println(string(jsonData))
+
+	// known json structure
+	var employee Employee
+	fmt.Println(employee)
+	jsonString := `{"emp_id" : "00003", "salary": 400000, "job_details": {"company":"Turing", "job_type":"remote"}}`
+	err = json.Unmarshal([]byte(jsonString), &employee)
+
+	if err != nil {
+		fmt.Println("Got error:", err)
+		return
+	}
+	fmt.Println(employee)
+	fmt.Println(employee.Salary)
+	fmt.Println(employee.JobDetails.JobType)
+
+	jobList := []JobDetails{
+		{Company: "Google", JobType: "Hybrid"},
+		{Company: "Atlassian", JobType: "Remote"},
+		{Company: "TCS", JobType: "Office"},
+	}
+
+	fmt.Println(jobList)
+
+	jobListJson, err := json.Marshal(jobList)
+	if err != nil {
+		fmt.Println("Got error:", err)
+		return
+	}
+	fmt.Println(string(jobListJson))
+
+	// handling unknown json structures
+	bookJsonString := `{"title":"The Art of Making a Deal", "author":"Donald Trump", "price":10, "publisher":{"name" : "Penguin Books", "country": "USA"}}`
+	fmt.Println(bookJsonString)
+
+	var unknownData map[string]any
+	err = json.Unmarshal([]byte(bookJsonString), &unknownData)
+	if err != nil {
+		fmt.Println("Got error:", err)
+		return
+	}
+
+	fmt.Println(unknownData)
+
+}
+
+type Employee struct {
+	EmployeeId string     `json:"emp_id"`
+	Salary     int        `json:"salary"`
+	JobDetails JobDetails `json:"job_details"`
+}
+
+type JobDetails struct {
+	Company string `json:"company"`
+	JobType string `json:"job_type"`
+}
