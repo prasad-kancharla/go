@@ -1,0 +1,23 @@
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	greeting := make(chan string)
+	go func() {
+		for _, c := range "abcde" {
+			greeting <- "Alphabet " + string(c)
+		}
+	}()
+
+	for range 5 {
+		receiver := <-greeting
+		fmt.Println(receiver)
+	}
+
+	time.Sleep(time.Second * 1)
+	fmt.Println("End of Program")
+}
