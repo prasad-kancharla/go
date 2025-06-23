@@ -1,0 +1,58 @@
+package main
+
+import (
+	"errors"
+	"fmt"
+	"time"
+)
+
+// Goroutines are the functions that leave the main thread and run in the background
+// they come back to join the main thread to return a value once the function execution is done
+// Goroutines do not block program flow
+func main() {
+	fmt.Println("Start")
+	go sayHello()
+	fmt.Println("After sayHello function")
+	go printNumbers()
+	go printChars()
+
+	// this doesn't work
+	//err := go doWork()
+
+	var err error
+	func() {
+		err = doWork()
+	}()
+
+	time.Sleep(3 * time.Second)
+	if err != nil {
+		fmt.Println("Got error:", err)
+	} else {
+		fmt.Println("Work completed")
+	}
+
+}
+
+func sayHello() {
+	time.Sleep(2 * time.Second)
+	fmt.Println("Hello from Goroutines")
+}
+
+func printNumbers() {
+	for i := range 5 {
+		time.Sleep(100 * time.Millisecond)
+		fmt.Println(i, time.Now())
+	}
+}
+
+func printChars() {
+	for _, r := range "abcde" {
+		fmt.Println(string(r), time.Now())
+		time.Sleep(time.Millisecond * 200)
+	}
+}
+
+func doWork() error {
+	time.Sleep(1 * time.Second)
+	return errors.New("work failed")
+}
