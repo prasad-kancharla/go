@@ -1,0 +1,38 @@
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	// declare a channel
+	ch := make(chan int)
+
+	// we are sending a value to the channel inside a go routine
+	// the channel is like a pipe that transfers water/oil
+	// it cannot store the value, it immediately looks for a receiver
+	// once the execution of go routine is done
+	// the go routine sends the value back to the main go rotuine looking for a receiver
+	// if main routine doesn't have one, it will cause an error
+	// viceversa doesn't work - we can receiver in gorotuine and sender in main
+	// if sender channel is in main, it immediately looks for receiver which it can't find
+	go func() {
+		ch <- 1
+		time.Sleep(time.Second * 2)
+		fmt.Println("2 sec goroutine completed")
+		// ch <- 1
+	}()
+
+	go func() {
+		time.Sleep(3 * time.Second)
+		fmt.Println("3 sec goroutine completed")
+	}()
+
+	// receiver will wait for all the goroutines to finish
+	// it will wait so that it may receive a value
+	// if it doesn't receive, it throws error
+	receiver := <-ch
+	fmt.Println(receiver)
+	fmt.Println("End of program")
+}
