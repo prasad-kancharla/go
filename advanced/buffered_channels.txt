@@ -1,0 +1,32 @@
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	// buffered channel with capacity 2
+	ch := make(chan int, 2)
+	ch <- 1
+	ch <- 2
+	// after storing 2 values, we tried to store one more value in the channel
+	// since the channel is full, it will throw an error (deadlock)
+	// ch <- 3
+
+	go func() {
+		time.Sleep(2 * time.Second)
+		fmt.Println("Received value", <-ch)
+	}()
+
+	ch <- 3
+
+	fmt.Println("Received value", <-ch)
+	fmt.Println("Received value", <-ch)
+
+	// our channel currently have only 2 values, if you try to read values from empty channel
+	// we get an error - deadlock
+	// fmt.Println("Received value", <-ch)
+
+	fmt.Println("End of Program")
+}
