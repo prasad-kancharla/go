@@ -1,0 +1,74 @@
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+// func main() {
+// 	// declared a channel with type struct
+// 	done := make(chan struct{})
+
+// 	go func() {
+// 		fmt.Println("Working...")
+// 		time.Sleep(2 * time.Second)
+// 		// we are passing an empty struct to the channels
+// 		// this is called the send channel, since we are sending data into the channel
+// 		done <- struct{}{}
+// 	}()
+
+// 	// This is the receiving channel
+// 	// we are currently not storing the value received from the channel into a variable
+// 	// we are just extracting it
+// 	// the execution of the main goroutine (thread) is blocked by the channel
+// 	// the unbuffered channel waits till it receives the value (this is the default behavior of a channel)
+// 	<-done
+// 	fmt.Println("done")
+// }
+
+// func main() {
+// 	ch := make(chan int)
+
+// 	go func() {
+// 		time.Sleep(1 * time.Second)
+// 		ch <- 9
+// 		// we may not see the below print statement (sometimes we can depending upon the speed of execution)
+// 		// the thing is once the we send the value to the channel, the main thread (goroutine) is unblocked
+// 		// and starts its execution, the content of our goroutine will run in the background and we can't see
+// 		// the print statement
+// 		// if we want to see the print statement, the main goroutine should be busy/blocked
+// 		// we can block main thread by using time.Sleep for 2 seconds
+// 		fmt.Println("Sent value")
+// 	}()
+
+// 	value := <-ch
+// 	// added this so that Sent value will be printed
+// 	// time.Sleep(1 * time.Second)
+// 	fmt.Println(value)
+
+// }
+
+// in below example we used 1 goroutine and sent multiple values using one channel
+// we can use other approach
+// we can create multiple goroutines (each one with one channnel) - in this case, we don't know the order
+// of execution of the goroutines
+// but in the below approach we know the order of values as we used only a single goroutine with 1 channel
+func main() {
+	channel := make(chan int)
+
+	go func() {
+		for i := range 5 {
+			channel <- i
+			time.Sleep(100 * time.Millisecond)
+		}
+
+		close(channel)
+	}()
+
+	// anothe way to create receiver channel is by iterating over the channel
+
+	for val := range channel {
+		fmt.Println("Got ", val, " at time ", time.Now())
+	}
+
+}
