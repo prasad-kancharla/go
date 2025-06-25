@@ -1,0 +1,46 @@
+package main
+
+import "fmt"
+
+func main() {
+
+	// channel directions are intended for functions and goroutines not for variable
+	// by default channel is bi-directional
+
+	channel := make(chan int)
+
+	// but this is not how these directions should be used
+	// for variable declarations
+	// this is send-only channel
+	// channel2 := make(chan<- int)
+
+	// this is receive only channel
+	// channel3 := make(<-chan int)
+
+	// chan<- int represents the send-only channel type
+	// it also accepts bi-directional channel
+
+	producer(channel)
+
+	consumer(channel)
+
+}
+
+//accetps send only channel
+func producer(ch chan<- int) {
+	go func(ch chan<- int) {
+		for i := range 5 {
+			ch <- i
+		}
+
+		close(ch)
+	}(ch)
+}
+
+//accepts a receive only channel
+// consumer
+func consumer(ch <-chan int) {
+	for val := range ch {
+		fmt.Println("Received value:", val)
+	}
+}
