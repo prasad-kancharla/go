@@ -1,0 +1,76 @@
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+
+	// Non blocking receive operation
+	// ch := make(chan int)
+
+	// if there is a default case in a select statment
+	// and the there is no value readily avaiable from the channel
+	// default case will be executed
+	// it won't wait for the message/value from the channel and the goroutine to complete
+	// select {
+	// case num, ok := <-ch:
+	// 	if !ok {
+	// 		fmt.Println("Channel is closed")
+	// 		return
+	// 	}
+	// 	fmt.Println("Got a number:", num)
+
+	// default:
+	// 	fmt.Println("No messages available")
+
+	// }
+
+	// Non-blocking send operation
+
+	// If I run the below line of code without any receiver
+	// we get a deadlock error
+	// ch <- 1
+	// we can select statement to send values as well
+
+	// select {
+	// case ch <- 1:
+	// 	fmt.Println("Sent a number")
+
+	// default:
+	// 	fmt.Println("No receiver channel present")
+	// }
+
+	// Non blocking operation in real-time
+	data := make(chan int)
+	quit := make(chan bool)
+
+	go func() {
+		for {
+			select {
+			case num := <-data:
+				fmt.Println("Got a number:", num)
+			// we are directly using the bool value from quit channel
+			// if there is a true value, we will exit from the for loop
+			case <-quit:
+				fmt.Println("Quitting the application...")
+				return
+			default:
+				// by defualt if there is no num from data channel, we wait for 500ms before running the for loop again
+				fmt.Println("Waiting for data...")
+				time.Sleep(500 * time.Millisecond)
+			}
+		}
+
+	}()
+
+	for i := range 5 {
+		data <- i
+		// for every second, we are sending 1 number into the channel
+		time.Sleep(time.Second)
+	}
+
+	quit <- true
+
+}
