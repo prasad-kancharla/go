@@ -1,0 +1,95 @@
+package main
+
+import "fmt"
+
+// func main() {
+// 	ch1 := make(chan int)
+// 	ch2 := make(chan int)
+
+// 	go func() {
+// 		time.Sleep(2 * time.Second)
+// 		ch1 <- 1
+
+// 	}()
+
+// 	go func() {
+// 		time.Sleep(time.Second)
+// 		ch2 <- 2
+// 	}()
+
+// 	// we are handling multiple channels
+// 	// we wait on the channels and process the one which is ready first
+// 	// ch2 sent the value first
+// 	// select {
+// 	// case msg := <-ch1:
+// 	// 	fmt.Println("Got value from ch1:", msg)
+
+// 	// case msg := <-ch2:
+// 	// 	fmt.Println("Got value from ch2:", msg)
+
+// 	// 	// default:
+// 	// 	// 	fmt.Println("No channels available")
+// 	// }
+
+// 	// we can also loop over select statements
+// 	for range 2 {
+// 		select {
+// 		case msg := <-ch1:
+// 			fmt.Println("Got value from ch1:", msg)
+
+// 		case msg := <-ch2:
+// 			fmt.Println("Got value from ch2:", msg)
+// 		}
+// 	}
+
+// 	fmt.Println("End of program")
+
+// }
+
+// func main() {
+// 	ch := make(chan int)
+
+// 	go func() {
+// 		time.Sleep(2 * time.Second)
+// 		ch <- 123
+
+// 		// good practice to always close channel
+// 		// unless we expect a stream of data to our channel
+// 		close(ch)
+// 	}()
+
+// 	select {
+// 	case val := <-ch:
+// 		fmt.Println("Got a value from ch:", val)
+// 		// timeout functionality
+// 	case <-time.After(3 * time.Second):
+// 		fmt.Println("Didn't receive value within 3 second")
+// 	}
+// }
+
+func main() {
+	ch := make(chan int)
+
+	go func() {
+		ch <- 2
+		close(ch)
+	}()
+
+	// in this for loop, the select statement continously checks for incoming values
+	// it is like infinite loop
+	// the return statement is the exit condition
+	for {
+		select {
+		// channel sends 2 things, the value and the bool to check if the channel is open or not
+		// if channel is closed, it means, it no longer sends values
+		case num, ok := <-ch:
+			// ok is a bool value
+			if !ok {
+				fmt.Println("Channel closed")
+				return
+			}
+			fmt.Println("Got a number:", num)
+		}
+	}
+
+}
