@@ -1,0 +1,46 @@
+package main
+
+import (
+	"context"
+	"fmt"
+	"time"
+)
+
+// func main() {
+// 	contextTodo := context.TODO()
+// 	ctx := context.WithValue(contextTodo, "fullName", "Prasad")
+// 	fmt.Println(ctx)
+// 	fmt.Println(ctx.Value("fullName"))
+
+// 	contextBg := context.Background()
+// 	ctx2 := context.WithValue(contextBg, "city", "New York")
+// 	fmt.Println(ctx2)
+// 	fmt.Println(ctx2.Value("city"))
+// }
+
+func checkEvenOdd(ctx context.Context, num int) string {
+	select {
+	case <-ctx.Done():
+		return "Operation cancelled"
+	default:
+		if num%2 == 0 {
+			return fmt.Sprintf("%d is even", num)
+		} else {
+			return fmt.Sprintf("%d is odd", num)
+		}
+	}
+}
+
+func main() {
+	todoCtx := context.TODO()
+	fmt.Println(checkEvenOdd(todoCtx, 5))
+
+	bgCtx := context.Background()
+	fmt.Println(checkEvenOdd(bgCtx, 10))
+
+	timeOutCtx, cancel := context.WithTimeout(bgCtx, 1*time.Second)
+	time.Sleep(2 * time.Second)
+	fmt.Println("Result after timeout:", checkEvenOdd(timeOutCtx, 12))
+
+	defer cancel()
+}
