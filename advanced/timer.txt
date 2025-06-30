@@ -1,0 +1,61 @@
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+// func main() {
+// 	// time.NewTimer is non-blocking in nature
+// 	// time.sleep is blocking in nature
+// 	fmt.Println("Started App")
+// 	timer := time.NewTimer(2 * time.Second)
+// 	// we can stop running timer without waiting
+// 	stopped := timer.Stop()
+// 	if stopped {
+// 		fmt.Println("Timer stopped")
+// 	}
+// 	// resets a stopped timers
+// 	timer.Reset(3 * time.Second)
+// 	<-timer.C // blocking in nature
+// 	fmt.Println("Timer expired")
+// }
+
+// func longOperation() {
+// 	for i := range 20 {
+// 		fmt.Println(i)
+// 		time.Sleep(500 * time.Millisecond) // simulating relatime behavior
+// 	}
+// }
+
+// func main() {
+// 	// 2 second timeout
+// 	timeout := time.After(2 * time.Second)
+// 	done := make(chan bool)
+
+// 	go func() {
+// 		longOperation()
+// 		done <- true
+// 	}()
+
+// 	select {
+// 	case <-timeout:
+// 		fmt.Println("Operation timed out")
+// 	case <-done:
+// 		fmt.Println("Operation completed")
+// 	}
+// }
+
+func main() {
+	timer := time.NewTimer(2 * time.Second)
+
+	go func() {
+		<-timer.C
+		fmt.Println("Delayed operation executed")
+	}()
+
+	fmt.Println("Waiting..")
+	// blocking timer
+	time.Sleep(3 * time.Second)
+	fmt.Println("End of program")
+}
