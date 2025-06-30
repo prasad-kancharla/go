@@ -1,0 +1,45 @@
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	ticker := time.NewTicker(time.Second)
+	stop := time.After(5 * time.Second)
+
+	defer ticker.Stop()
+
+	for {
+		select {
+		case <-stop:
+			fmt.Println("Application stopped after 5 seconds")
+			return
+		case <-ticker.C:
+			fmt.Println(time.Now())
+		}
+	}
+
+}
+
+// func main() {
+// 	// ticker have no expiry unlike timers
+// 	// we should always stop them using defer
+// 	ticker := time.NewTicker(time.Second)
+
+// 	// for tick := range ticker.C {
+// 	// 	fmt.Println("Tick at", tick)
+// 	// }
+
+// 	num := 0
+// 	for range ticker.C {
+// 		fmt.Println(num)
+// 		num++
+// 		if num == 5 {
+// 			return
+// 		}
+// 	}
+
+// 	defer ticker.Stop()
+// }
