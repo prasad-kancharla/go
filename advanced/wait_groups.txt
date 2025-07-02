@@ -6,27 +6,75 @@ import (
 	"time"
 )
 
-func worker(id int, wg *sync.WaitGroup, secs int) {
-	// the done method reduces the count in wg when the goroutine is complete
-	defer wg.Done()
-	fmt.Printf("Worker %d started...\n", id)
-	time.Sleep(time.Duration(secs) * time.Second)
-	fmt.Printf("Worker %d finished\n", id)
-}
-func main() {
-	var wg sync.WaitGroup
+// func worker(id int, wg *sync.WaitGroup, secs int) {
+// 	// the done method reduces the count in wg when the goroutine is complete
+// 	defer wg.Done()
+// 	fmt.Printf("Worker %d started...\n", id)
+// 	time.Sleep(time.Duration(secs) * time.Second)
+// 	fmt.Printf("Worker %d finished\n", id)
+// }
+// func main() {
+// 	var wg sync.WaitGroup
 
+// 	numWorkers := 3
+// 	// set the count of goroutines to 3
+// 	wg.Add(numWorkers)
+
+// 	for i := range numWorkers {
+// 		// go worker(i, &wg, numWorkers-i)
+// 		go worker(i, &wg, 1)
+// 	}
+
+// 	// waits for all the 3 goroutines to complete
+// 	// means, it waits till the counter becomes 0
+// 	wg.Wait()
+// 	fmt.Println("All workers are completed")
+// }
+
+func main() {
+
+	var wg sync.WaitGroup
 	numWorkers := 3
-	// set the count of goroutines to 3
+	numTasks := 6
+
+	tasks := make(chan int, numTasks)
+	output := make(chan int, numTasks)
+
 	wg.Add(numWorkers)
 
-	for i := range numWorkers {
-		// go worker(i, &wg, numWorkers-i)
-		go worker(i, &wg, 1)
+	for i := range numTasks {
+		tasks <- i + 3
 	}
 
-	// waits for all the 3 goroutines to complete
-	// means, it waits till the counter becomes 0
-	wg.Wait()
-	fmt.Println("All workers are completed")
+	// after sending all input values
+	// you should close otherwise, the receiver will wait forever
+	close(tasks)
+
+	for i := range numWorkers {
+		go worker(i+1, &wg, tasks, output)
+	}
+
+	// this is very important
+	// wait for the wait group counter to become 0
+	// that means all tasks are done
+	// then close the output channel
+	// otherwise main goroutine will wait for the values from output
+	// leads to deadlock
+	go func() {
+		wg.Wait()
+		close(output)
+	}()
+
+	for i := range output {
+		fmt.Println("Got value:", i)
+	}
+}
+
+func worker(id int, wg *sync.WaitGroup, tasks <-chan int, output chan<- int) {
+	defer wg.Done()
+	for i := range tasks {
+		fmt.Printf("Processing task %d using id %d\n", i, id)
+		output <- i * i
+		time.Sleep(time.Second)
+	}
 }
