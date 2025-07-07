@@ -1,0 +1,42 @@
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+type MyStruct struct {
+	count int
+	ch    chan int
+}
+
+func (s *MyStruct) start() {
+	go func() {
+		for {
+			select {
+			case value := <-s.ch:
+				s.count += value
+				fmt.Println("Current count:", s.count)
+			}
+		}
+	}()
+}
+
+func (s *MyStruct) send(num int) {
+	s.ch <- num
+}
+
+func main() {
+	myStr := &MyStruct{
+		count: 0,
+		ch:    make(chan int),
+	}
+
+	myStr.start()
+
+	for i := range 5 {
+		myStr.send(i)
+		time.Sleep(500 * time.Millisecond)
+	}
+
+}
