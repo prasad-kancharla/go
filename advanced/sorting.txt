@@ -1,0 +1,47 @@
+package main
+
+import (
+	"fmt"
+	"sort"
+)
+
+type Student struct {
+	name string
+	rank int
+}
+
+func main() {
+	nums := []int{5, 3, 4, 8, 0}
+	fmt.Println(nums)
+	sort.Ints(nums)
+	fmt.Println(nums)
+
+	names := []string{"Orange", "aa", "aA", "Aa", "AA", "Banana"}
+	fmt.Println(names)
+	sort.Strings(names)
+	fmt.Println(names)
+
+	students := []Student{
+		{
+			name: "Sakura",
+			rank: 3,
+		},
+		{
+			name: "Naruto Uzumaki",
+			rank: 1,
+		},
+		{
+			name: "Sasuke Uchiha",
+			rank: 2,
+		},
+	}
+	sort.Slice(students, func(i, j int) bool {
+		return len(students[i].name) < len(students[j].name)
+	})
+	fmt.Println(students)
+
+	sort.Slice(students, func(i, j int) bool {
+		return students[i].rank < students[j].rank
+	})
+	fmt.Println(students)
+}
