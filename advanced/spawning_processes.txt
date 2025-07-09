@@ -1,0 +1,39 @@
+package main
+
+import (
+	"fmt"
+	"os/exec"
+)
+
+func main() {
+
+	// cmd := exec.Command("echo", "Hello Prasad")
+	cmd := exec.Command("cmd", "/C", "echo Hello Prasad")
+	output, err := cmd.Output()
+	if err != nil {
+		fmt.Println("Got error:", err)
+		return
+	}
+	fmt.Println("Output:", string(output))
+
+	cmd2 := exec.Command("cmd", "/c", "dir")
+	output, err = cmd2.Output()
+	if err != nil {
+		fmt.Println("Got error:", err)
+		return
+	}
+	fmt.Println("Output:", string(output))
+
+	// cmd3 := exec.Command("cmd", "/C", "timeout /T 1 /NOBREAK")
+	// err = cmd3.Start()
+	// if err != nil {
+	// 	fmt.Println("Error starting:", err)
+	// 	return
+	// }
+	// err = cmd3.Wait()
+	// if err != nil {
+	// 	fmt.Println("Error waiting:", err)
+	// 	return
+	// }
+	// fmt.Println("Process done")
+}
