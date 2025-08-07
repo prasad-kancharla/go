@@ -15,8 +15,9 @@ func main() {
 		fmt.Fprintf(w, "Handling users")
 	})
 
-	fmt.Println("Starting server on port 3000")
-	err := http.ListenAndServe("localhost:3000", nil)
+	// HTTP 1.1 server without tls
+	fmt.Println("Starting server on port 3001")
+	err := http.ListenAndServe("localhost:3001", nil)
 	if err != nil {
 		fmt.Println("Got error:", err)
 	}
