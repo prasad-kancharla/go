@@ -1,0 +1,59 @@
+package main
+
+import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"log"
+	"strings"
+)
+
+type User struct {
+	Name  string `json:"name"`
+	Age   int    `json:"age"`
+	Email string `json:"email"`
+}
+
+func main() {
+	user := User{
+		Name:  "Prasad",
+		Age:   27,
+		Email: "kdkgp98@gmail.com",
+	}
+
+	jsonData, err := json.Marshal(user)
+	if err != nil {
+		log.Fatalln("Got error:", err)
+	}
+	fmt.Println(string(jsonData))
+
+	var unmarshalledUser User
+	json.Unmarshal(jsonData, &unmarshalledUser)
+	fmt.Println(unmarshalledUser)
+
+	// the below approach is used to decode json from a stream or large data sets or reading/writing from external sources
+	// encoder and decoder and more efficient
+	jsonData2 := `{"name" : "Ram", "age" : 30, "email": "ram@gmail.com"}`
+	reader := strings.NewReader(jsonData2)
+	decoder := json.NewDecoder(reader)
+
+	var decodedUser User
+	err = decoder.Decode(&decodedUser)
+	if err != nil {
+		log.Fatalln("Got error:", err)
+	}
+	fmt.Println(decodedUser)
+
+	// update user details
+	user.Name = "Kali"
+	user.Email = "kancharlaguruprasad@gmail.com"
+
+	// encode object to json
+	var buf bytes.Buffer
+	encoder := json.NewEncoder(&buf)
+	err = encoder.Encode(&user)
+	if err != nil {
+		log.Fatalln("Got error:", err)
+	}
+	fmt.Println("Encoded json string:", buf.String())
+}
